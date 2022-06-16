@@ -34,7 +34,8 @@ _______________________________________________________
     * Header files (Encabezados)  
   <br>
 8. Lotes de Carga y proceso - STRUCTS  
-  
+
+<br>  
 <br>  
 
 > Nota: Se agregó la carpeta "Proyecto", corresponde  
