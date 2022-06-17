@@ -7,8 +7,7 @@ Los mismos corresponden a la Carrera de:
 > Tecnico Superior En Programación
 
 _______________________________________________________  
-<br>
-
+ 
 ![Logo cpp](https://monsalma.net/wp-content/uploads/2022/01/cpp_programming_language.png "Logo cpp")
 
 
@@ -32,7 +31,8 @@ _______________________________________________________
     * Paso de parámetros por valor/referencia
     * Introducción a Punteros
     * Header files (Encabezados)  
-  <br>
+  
+  
 8. Lotes de Carga y proceso - STRUCTS  
 
 <br>  
