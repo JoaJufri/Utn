@@ -1,6 +1,7 @@
 #ifndef FUNCIONES_H_INCLUDED
 #define FUNCIONES_H_INCLUDED
 
+#include <iostream>
 using namespace std;
 #include <stdio.h>
 // Func. Random dados x jugador
@@ -109,6 +110,7 @@ int DadoMax(int vec[], int dados)
     return max;
 }
 
+//Prueba Carteles pt1
 int stringMasLargo(string vec[], int cant)
 {
     int max = 0;
@@ -122,6 +124,7 @@ int stringMasLargo(string vec[], int cant)
     return max;
 }
 
+//Prueba carteles pt2
 void mostrarCartel() {
     string vecTest[5] = {"Hola", "Como", "Estas", "Hoy", "Gil"};
     int largo = stringMasLargo(vecTest, 5);
@@ -131,6 +134,7 @@ void mostrarCartel() {
         cout<< margen<<"hola"<<margen;
     }
 }
+
 
 
 //

@@ -18,8 +18,7 @@ int main()
     char Continuar;
     int opcion, Lanzar2[2], Lanzar3[3], Lanzamientos;
     string Nombre[2]; // Nombre[0]==Jugador 1(turno 0), Nombre[1]==Jugador2 (Turno 1)
-    int Trufas, LanzMax1, LanzMax2, TrufasRonda, Turno, Dados = 2, Ronda = 1;
-    int LanzaPorturno;
+    int Trufas, LanzMax1, LanzMax2, TrufasRonda, Turno, Dados, Ronda;
     int Unos = 0;
     bool Hundido = false, ForzarTurno = false, Oink = false;
     srand(time(NULL));
@@ -29,14 +28,6 @@ int main()
     while (on == true)
     {
         rlutil::cls();
-
-        cout << "     GRAN CERDO, GRAN CERDO, GRAN CERDO     " << endl;
-
-        cout << "     1: Jugar     " << endl;
-        cout << "     2: Estadísticas     " << endl;
-        cout << "     3: Cerditos     " << endl;
-        cout << "     0: Salir     " << endl;
-
 
         cout << "    GRAN CERDO" << endl;
         cout << "----------------------" << endl;
@@ -66,6 +57,7 @@ int main()
             // Sorteo Inicio (Acá va a mostrar la funcion Sorteo y devolver el turno del jugador que empieza)
             Turno = Sorteo(Nombre);
             rlutil::anykey();
+            rlutil::cls();
 
             // Inicio de Turnos
 
@@ -82,11 +74,11 @@ int main()
             Ronda = 1;
             TrufasRonda = 0;
             Lanzamientos = 0;
+            LanzMax1 = 0; 
+            LanzMax2 = 0;
 
             for (int i = 0; i < 10; i++)
             {    
-                LanzaPorturno=0;
-
                 if (i % 2 == 0 && i != 0)
                 {
                     Ronda++;
@@ -94,7 +86,6 @@ int main()
 
                 do
                 {   
-                    LanzaPorturno++;
                     Lanzamientos++;
                     ForzarTurno = false;
                     Oink = false;
@@ -116,7 +107,7 @@ int main()
                         cout << "Ronda: " << Ronda << endl;
                         cout << "Trufas de la ronda: " << TrufasRonda << endl;
                         cout << "Total acumulado por " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
-                        Lanza[Turno][Ronda-1] = LanzaPorturno; //guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
+                        Lanza[Turno][Ronda-1]+=Lanzamientos; //guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
                         MostrarDados(Lanzar2, 2);
                     }
                     else
@@ -134,7 +125,7 @@ int main()
                         cout << "Trufas de la ronda: " << TrufasRonda << endl;
                         cout << "Total acumulado por " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
                         cout << "#Lanzamiento: " << Lanzamientos << endl;
-                        Lanza[Turno][Ronda-1] = LanzaPorturno; //guarda el ultimo contador lanzamiento de La ronda para el turno 0 o 1
+                        Lanza[Turno][Ronda-1]+=Lanzamientos; //guarda el ultimo contador lanzamiento de La ronda para el turno 0 o 1
                         MostrarDados(Lanzar3, 3);
                     }
 
@@ -210,18 +201,19 @@ int main()
                     {
                         rlutil::anykey();
                     }
-
+                    
                     // Cambio de turno (Jugador)
                     if (Continuar == 'N')
                     {
                         TrufasRonda = 0;
                         Lanzamientos = 0;
+
                         if (Turno == 0)
-                        {
+                        {    
                             Turno = 1;
                         }
                         else
-                        {
+                        {   
                             Turno = 0;
                         }
                     }
@@ -230,40 +222,36 @@ int main()
                 } while (Continuar == 'S');
             }
 
-            cout << "GANASTE BOLUDITO" << endl;
-
-            /// Maxima cantidad de lanzamientos para cada jugador//ver de hacer funcion mañana
-            
-            LanzMax1 = Lanza[0][0], LanzMax2 = Lanza [1][0];
-
-            for(int i=0;i<2;i++)
+        //Calcular Maximo para c/jugador. (Hacerlo función)
+            for (int i = 0; i < 2; i++)
             {
-                    for(int j=0;j<5;j++)
+                for (int j = 0; j < 5; j++)
+                {   
+                    if (i==0)
                     {
-                        if (i==0)
-                            {
-                            if(Lanza[i][j]>LanzMax1)
-                            {
-                                LanzMax1=Lanza[i][j];
-                            }
-                        } 
-                        else if (Lanza[i][j]>LanzMax2)
+                        if (Lanza[i][j]>LanzMax1)
                         {
-                                LanzMax2=Lanza[i][j];
+                            LanzMax1=Lanza[i][j];
                         }
                     }
-            }   //Mostramos por pantalla el lanzamiento maximo PRUEBA
-                if(Turno == 0)
-                {
-                     cout<<"El mayor lanzamiento para "<< Nombre[Turno]<< "es"<< LanzMax1 << endl;
+                    else
+                    {
+                        if (Lanza[i][j]>LanzMax2)
+                        {
+                            LanzMax2=Lanza[i][j];
+                        }
+                        
+                    }
+                    
                 }
-                else 
-                {
-                     cout<<"El mayor lanzamiento para "<< Nombre[Turno]<< "es"<< LanzMax2 << endl;
-                     }
+                
+            }
             
-            //Podemos asignar al vector Player[TURNO][0][0]LanzMax1 y Player[Turno][0][1] LanzMax2.
-               
+            //Prueba Lanzamientos maximos
+            cout<<"Lanzamiento maximo para el jugador: "<<Nombre[0]<<" : "<<LanzMax1<<endl;
+            cout<<"Lanzamiento maximo para el jugador: "<<Nombre[1]<<" : "<<LanzMax2<<endl;
+            cout << "DATOS DEL GANADOR" << endl;   
+            rlutil::anykey();
 
             break;
 
