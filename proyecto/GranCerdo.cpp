@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
     int Player[2][3] = {}; // Vector para 2 jugadores PLayer[Turno][trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos]
-    int Lanza[2][5] = {}; // Vector para guardar lanzamientos x Ronda - [Turno][Ronda]
+    int Lanza[2][5] = {};  // Vector para guardar lanzamientos x Ronda - [Turno][Ronda]
     bool on = true;
     char Continuar;
     int opcion, Lanzar2[2], Lanzar3[3], Lanzamientos;
@@ -28,11 +28,11 @@ int main()
     while (on == true)
     {
         rlutil::cls();
-
+        // Menú principal
         cout << "    GRAN CERDO" << endl;
         cout << "----------------------" << endl;
         cout << "    1: Jugar" << endl;
-        cout << "    2: Estadísticas" << endl;
+        cout << "    2: Estadisticas" << endl;
         cout << "    3: Cerditos" << endl;
         cout << "----------------------" << endl;
         cout << "    0: Salir" << endl;
@@ -42,7 +42,6 @@ int main()
         rlutil::cls();
         switch (opcion)
         {
-
         case 1:
 
             // Peticion de Nombres
@@ -60,37 +59,34 @@ int main()
             rlutil::cls();
 
             // Inicio de Turnos
-
             for (int i = 0; i < 2; i++)
-            {
                 for (int j = 0; j < 3; j++)
-                {
                     Player[i][j] = 0;
-                }
-            }
 
             // Reinicio de variables x juego
             Dados = 2;
             Ronda = 1;
             TrufasRonda = 0;
             Lanzamientos = 0;
-            LanzMax1 = 0; 
+            LanzMax1 = 0;
             LanzMax2 = 0;
 
             for (int i = 0; i < 10; i++)
-            {    
+            {
                 if (i % 2 == 0 && i != 0)
-                {
                     Ronda++;
-                }
 
                 do
-                {   
+                {
                     Lanzamientos++;
                     ForzarTurno = false;
                     Oink = false;
                     Continuar = 'S';
                     Trufas = 0, Unos = 0;
+
+                    rlutil::locate(50, 2);
+                    cout << "GRAN CERDO" << endl;
+                    cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
 
                     if (Dados == 2)
                     {
@@ -102,13 +98,22 @@ int main()
                             Oink = Hay_Oink(Lanzar2, 2);
                         }
 
-                        cout << "Turno de: " << Nombre[Turno] << endl;
-                        cout << "#Lanzamiento: " << Lanzamientos << endl;
+                        rlutil::locate(7, 5);
+                        cout << "TURNO DE: " << Nombre[Turno] << endl;
+                        /*
                         cout << "Ronda: " << Ronda << endl;
                         cout << "Trufas de la ronda: " << TrufasRonda << endl;
-                        cout << "Total acumulado por " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
-                        Lanza[Turno][Ronda-1]+=Lanzamientos; //guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
+                        cout << "#Lanzamiento: " << Lanzamientos << endl;
+                        */
+
+                        CartelTurno(Ronda, Lanzamientos, TrufasRonda);
+
+                        rlutil::locate(7, 14);
+                        cout << "TOTAL ACUMULADO POR " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
+                        Lanza[Turno][Ronda - 1] = Lanzamientos; // Guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
+                        rlutil::locate(1, 17);
                         MostrarDados(Lanzar2, 2);
+
                     }
                     else
                     {
@@ -116,20 +121,24 @@ int main()
                         Trufas = SumarDados(Lanzar3, 3);
                         Unos = ContarUnos(Lanzar3, 3);
                         if (Unos == 0)
-                        {
                             Oink = Hay_Oink(Lanzar3, 3);
-                        }
 
-                        cout << "Turno de: " << Nombre[Turno] << endl;
+                        rlutil::locate(7, 5);
+                        cout << "TURNO DE: " << Nombre[Turno] << endl;
+                        CartelTurno(Ronda, Lanzamientos, TrufasRonda);
+                        /*
                         cout << "Ronda: " << Ronda << endl;
                         cout << "Trufas de la ronda: " << TrufasRonda << endl;
-                        cout << "Total acumulado por " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
                         cout << "#Lanzamiento: " << Lanzamientos << endl;
-                        Lanza[Turno][Ronda-1]+=Lanzamientos; //guarda el ultimo contador lanzamiento de La ronda para el turno 0 o 1
+                        */
+                        rlutil::locate(7, 14);
+                        cout << "TOTAL ACUMULADO POR " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
+                        Lanza[Turno][Ronda - 1] = Lanzamientos; // Guarda el ultimo contador lanzamiento de La ronda para el turno 0 o 1
+                        rlutil::locate(1, 17);
                         MostrarDados(Lanzar3, 3);
                     }
 
-                    //Evaluacion de jugada:
+                    // Evaluacion de jugada:
                     switch (Unos)
                     {
                     case 1:
@@ -201,7 +210,7 @@ int main()
                     {
                         rlutil::anykey();
                     }
-                    
+
                     // Cambio de turno (Jugador)
                     if (Continuar == 'N')
                     {
@@ -209,11 +218,11 @@ int main()
                         Lanzamientos = 0;
 
                         if (Turno == 0)
-                        {    
+                        {
                             Turno = 1;
                         }
                         else
-                        {   
+                        {
                             Turno = 0;
                         }
                     }
@@ -222,35 +231,32 @@ int main()
                 } while (Continuar == 'S');
             }
 
-        //Calcular Maximo para c/jugador. (Hacerlo función)
+            // Calcular Maximo para c/jugador. (Hacerlo función)
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 5; j++)
-                {   
-                    if (i==0)
+                {
+                    if (i == 0)
                     {
-                        if (Lanza[i][j]>LanzMax1)
+                        if (Lanza[i][j] > LanzMax1)
                         {
-                            LanzMax1=Lanza[i][j];
+                            LanzMax1 = Lanza[i][j];
                         }
                     }
                     else
                     {
-                        if (Lanza[i][j]>LanzMax2)
+                        if (Lanza[i][j] > LanzMax2)
                         {
-                            LanzMax2=Lanza[i][j];
+                            LanzMax2 = Lanza[i][j];
                         }
-                        
                     }
-                    
                 }
-                
             }
-            
-            //Prueba Lanzamientos maximos
-            cout<<"Lanzamiento maximo para el jugador: "<<Nombre[0]<<" : "<<LanzMax1<<endl;
-            cout<<"Lanzamiento maximo para el jugador: "<<Nombre[1]<<" : "<<LanzMax2<<endl;
-            cout << "DATOS DEL GANADOR" << endl;   
+
+            // Prueba Lanzamientos maximos
+            cout << "Lanzamiento maximo para el jugador: " << Nombre[0] << " : " << LanzMax1 << endl;
+            cout << "Lanzamiento maximo para el jugador: " << Nombre[1] << " : " << LanzMax2 << endl;
+            cout << "DATOS DEL GANADOR" << endl;
             rlutil::anykey();
 
             break;
@@ -266,7 +272,7 @@ int main()
             break;
 
         case 0:
-            cout << "Gracias por jugar :) , oprima cualquier tecla para salir ";
+            cout << "Gracias por jugar :) , oprima cualquier tecla para salir " << endl;
             rlutil::anykey();
             /*SALIR / fin del programa*/
             on = false;

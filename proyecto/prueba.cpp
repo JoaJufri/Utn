@@ -3,31 +3,65 @@ using namespace std;
 #include <string>
 #include "rlutil.h"
 
-int main()
+void CartelTurno(int& Ronda, int& Lanzamientos, int& TrufasRonda, int& x, int& y)
 {
-    int Ronda=5,Lanzamiento=5,TrufasRonda=12;
+    int Yaux=y+1;
    
-    rlutil::locate(10,20);
+    rlutil::locate(x,y);
     cout<<"+--------------------------------+";
-    rlutil::locate(10,21);
+    rlutil::locate(x,y++);
     cout<<"| Ronda: "<<Ronda<<endl;
-    rlutil::locate(10,22);
+    rlutil::locate(x,y++);
     cout<<"| Trufas de la Ronda: "<<TrufasRonda<<endl;
-    rlutil::locate(10,23);
-    cout<<"| #Lanzamiento: "<<Lanzamiento<<endl;
-    rlutil::locate(10,24);
+    rlutil::locate(x,y++);
+    cout<<"| #Lanzamiento: "<<Lanzamientos<<endl;
+    rlutil::locate(x,y++);
     cout<<"+--------------------------------+"<<endl;
 
-    int y=21;
+    
     for (int i = 0; i < 3; i++)
     {   
-        rlutil::locate(43,y);
+        rlutil::locate(33-x,Yaux); // locate((Yaux+x-2),y)
         cout<<"|";
-        y++;
+        Yaux++;
+    }
+}
+
+void arr(int Arr[][2]){
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            Arr[i][j]=i+j;
+        }
+        
     }
     
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            cout<<Arr[i][j]<<" ";
+        }
+        
+    }
+}
 
+int main()
+{
+    int Ronda=5,TrufasRonda=25,Lanzamientos=4;
+    int x,y;
+    int Puntos[5][2]={};
+
+
+    arr(Puntos);
+
+    
+    
+   
 
     rlutil::anykey();
+
 return 0;
 }

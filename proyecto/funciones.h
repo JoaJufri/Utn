@@ -4,13 +4,12 @@
 #include <iostream>
 using namespace std;
 #include <stdio.h>
+#include "rlutil.h"
 // Func. Random dados x jugador
 void TirarDados(int vec[], int dados)
 {
     for (int i = 0; i < dados; i++)
-    {
         vec[i] = 1 + rand() % 6;
-    }
 }
 
 // Func. Mostrar dados sorteados
@@ -19,9 +18,7 @@ void MostrarDados(int vec[], int c_dados)
     string dado[5] = {};
 
     for (int i = 0; i < 5; i++)
-    {
         dado[i] = "     ";
-    }
 
     for (int i = 0; i < c_dados; i++)
     {
@@ -76,12 +73,10 @@ void MostrarDados(int vec[], int c_dados)
         }
     }
 
-    cout << ("Tu jugada: \n") << endl;
+    cout << (" TU JUGADA: \n") << endl;
 
     for (int i = 0; i < 5; i++)
-    {
         cout << dado[i] << endl;
-    }
     cout << "\n";
 }
 
@@ -90,9 +85,7 @@ int SumarDados(int vec[], int dados)
 {
     int acu = 0;
     for (int i = 0; i < dados; i++)
-    {
         acu += vec[i];
-    }
     return acu;
 }
 
@@ -101,54 +94,66 @@ int DadoMax(int vec[], int dados)
 {
     int max = 0;
     for (int i = 0; i < dados; i++)
-    {
         if (vec[i] > max)
-        {
             max = vec[i];
-        }
-    }
     return max;
 }
 
-//Prueba Carteles pt1
+// Prueba Carteles pt1
 int stringMasLargo(string vec[], int cant)
 {
     int max = 0;
     for (int i = 0; i < cant; i++)
-    {
         if (vec[i].length() > max)
-        {
             max = vec[i].length();
-        }
-    }
     return max;
 }
 
-//Prueba carteles pt2
-void mostrarCartel() {
+// Prueba carteles pt2
+void mostrarCartel()
+{
     string vecTest[5] = {"Hola", "Como", "Estas", "Hoy", "Gil"};
     int largo = stringMasLargo(vecTest, 5);
     int margen = 2;
-    for (int i = 0; i<largo+2; i++) {
-      
-        cout<< margen<<"hola"<<margen;
+    for (int i = 0; i < largo + 2; i++)
+        cout << margen << "hola" << margen;
+}
+
+// Funcion Cartel Turnos
+void CartelTurno(int &Ronda, int &Lanzamientos, int &TrufasRonda)
+{
+    rlutil::locate(7, 8);
+    cout << "+--------------------------------+";
+    rlutil::locate(7, 9);
+    cout << "| Ronda: " << Ronda << endl;
+    rlutil::locate(7, 10);
+    cout << "| Trufas de la Ronda: " << TrufasRonda << endl;
+    rlutil::locate(7, 11);
+    cout << "| #Lanzamiento: " << Lanzamientos << endl;
+    rlutil::locate(7, 12);
+    cout << "+--------------------------------+" << endl;
+
+    int y = 9;
+    for (int i = 0; i < 3; i++)
+    {
+        rlutil::locate(40, y);
+        cout << "|";
+        y++;
     }
 }
 
-
-
 //
 
-//FORMATEAR PARA IMPRIMIR
-// JUGADOR 1
-// Por cada categoria, tomar el string más largo (OBTIENE EL ANCHO DE CADA COLUMNA)
-//laksjdlaksjdlakjsd
-//5 PDV (3000000000020 trufas)
-//5 PDV (30 trufas)
+// FORMATEAR PARA IMPRIMIR
+//  JUGADOR 1
+//  Por cada categoria, tomar el string más largo (OBTIENE EL ANCHO DE CADA COLUMNA)
+// laksjdlaksjdlakjsd
+// 5 PDV (3000000000020 trufas)
+// 5 PDV (30 trufas)
 
 // Por cada linea, rellenar hasta el string máximo
 // Categoria 1
-//laksjdlaksjdlakjsd
+// laksjdlaksjdlakjsd
 //"cada 50 trufas   "
 //"Oinks            "
 //"Cerdo codicioso  "
@@ -158,22 +163,11 @@ void mostrarCartel() {
 //"6 PDV (3 Oinks)       "
 //"0 PDV (8 lanzamientos)"
 
-
-
-
 //|    laksjdlaksjdlakjsd    [5 PDV (3000000000020 trufas),"     ", 5 PDV (30 trufas)]    |
 //|    asdasdasdasd     ,    [5 PDV (3000000000020 trufas),"     ", 5 PDV (30 trufas)]    |
 
-
-//MOSTRAR CARTEL
+// MOSTRAR CARTEL
 //"mas trufas en total"+=/"                               "+=/"     asdas      "
-
-
-
-
-
-
-
 
 // Func. Sorteo Inicial
 int Sorteo(string Vnombre[])
@@ -189,28 +183,28 @@ int Sorteo(string Vnombre[])
         acu1 = SumarDados(Lanzar, 2);
         max1 = DadoMax(Lanzar, 2);
 
-        cout << "Turno de "<<Vnombre[0]<<"\n\n";
-        MostrarDados(Lanzar,2);
+        cout << "Turno de " << Vnombre[0] << "\n\n";
+        MostrarDados(Lanzar, 2);
 
         TirarDados(Lanzar, 2);
         acu2 = SumarDados(Lanzar, 2);
         max2 = DadoMax(Lanzar, 2);
 
-        cout << "Turno de "<<Vnombre[1]<<"\n\n";
-        MostrarDados(Lanzar,2);
+        cout << "Turno de " << Vnombre[1] << "\n\n";
+        MostrarDados(Lanzar, 2);
 
         if (acu1 == acu2)
         {
             if (max1 > max2)
             {
                 turno = 0;
-                cout << "Comienza "<<Vnombre[turno]<< endl;
+                cout << "Comienza " << Vnombre[turno] << endl;
                 flag = true;
             }
             else if (max2 > max1)
             {
                 turno = 1;
-                cout << "Comienza "<<Vnombre[turno] << endl;
+                cout << "Comienza " << Vnombre[turno] << endl;
                 flag = true;
             }
             else
@@ -223,13 +217,13 @@ int Sorteo(string Vnombre[])
         else if (acu1 > acu2)
         {
             turno = 0;
-            cout << "Comienza "<<Vnombre[turno] << endl;
+            cout << "Comienza " << Vnombre[turno] << endl;
             flag = true;
         }
         else
         {
             turno = 1;
-            cout << "Comienza "<<Vnombre[turno] << endl;
+            cout << "Comienza " << Vnombre[turno] << endl;
             flag = true;
         }
     }
@@ -241,12 +235,8 @@ int ContarUnos(int vec[], int cant)
 {
     int c_unos = 0;
     for (int i = 0; i < cant; i++)
-    {
         if (vec[i] == 1)
-        {
             c_unos++;
-        }
-    }
     return c_unos;
 }
 
@@ -256,16 +246,10 @@ bool Hay_Oink(int vec[], int cant)
     bool hay_Oink = false;
     int contador = 0;
     for (int i = 0; i < cant - 1; i++)
-    {
         if (vec[i] == vec[i + 1])
-        {
             contador++; /*(Cuento los dados iguales)*/
-        }
-    }
     if (contador == cant - 1)
-    {
         hay_Oink = true;
-    }
 
     return hay_Oink;
 }
