@@ -1,5 +1,6 @@
 #ifndef FUNCIONES_H_INCLUDED
 #define FUNCIONES_H_INCLUDED
+#define HITOS 4
 
 #include <iostream>
 using namespace std;
@@ -80,6 +81,46 @@ void MostrarDados(int vec[], int c_dados)
     cout << "\n";
 }
 
+void DibujarCuadrado(int x, int y, int ancho, int alto) {
+
+    int xaux=x;
+    int yaux=y;
+    string BordeHorizontal="+";
+    //Dibuja techo y piso "  +-------+"
+    for (int i = 0; i <= ancho-2; i++)
+    {
+        BordeHorizontal+="-";  
+    }
+
+    BordeHorizontal+="+";
+  
+    //Dibuja borde superior
+    rlutil::locate(x,y);
+    cout<<BordeHorizontal;
+
+    //Dibuja lado izquierdo "|" (le resto 2 al alto por los bordes sup. e inferior)
+    for (int i = 0; i < alto-2; i++)
+    {
+        yaux++;
+        rlutil::locate(x,yaux);
+        cout<<"|";
+    }
+    
+    //Dibuja lado derecho "|" (le resto 2 al alto por los bordes sup. e inferior)
+    yaux=y;
+    for (int i = 0; i < alto-2; i++)
+    {   
+        yaux++;
+        rlutil::locate(x+ancho,yaux);
+        cout<<"|";
+    }
+    
+    //Dibuja borde inferior (Le resto 1 al alto pq ya dibuje el borde superior)
+    rlutil::locate(x,y+alto-1);
+    cout<<BordeHorizontal;
+
+}
+
 // Func. Sumar dados x jugador
 int SumarDados(int vec[], int dados)
 {
@@ -109,17 +150,8 @@ int stringMasLargo(string vec[], int cant)
     return max;
 }
 
-// Prueba carteles pt2
-void mostrarCartel()
-{
-    string vecTest[5] = {"Hola", "Como", "Estas", "Hoy", "Gil"};
-    int largo = stringMasLargo(vecTest, 5);
-    int margen = 2;
-    for (int i = 0; i < largo + 2; i++)
-        cout << margen << "hola" << margen;
-}
 
-// Funcion Cartel Turnos
+/** Cartel de Turnos */
 void CartelTurno(int &Ronda, int &Lanzamientos, int &TrufasRonda)
 {
     rlutil::locate(7, 8);
@@ -142,32 +174,163 @@ void CartelTurno(int &Ronda, int &Lanzamientos, int &TrufasRonda)
     }
 }
 
-//
+// Calcula Puntos De Victoria (update)
+//orden matriz player: [trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos] [Cada 50 trufas]
+void CalculoPDV(int player[][HITOS], int PDV[][HITOS])
+{
 
-// FORMATEAR PARA IMPRIMIR
-//  JUGADOR 1
-//  Por cada categoria, tomar el string más largo (OBTIENE EL ANCHO DE CADA COLUMNA)
-// laksjdlaksjdlakjsd
-// 5 PDV (3000000000020 trufas)
-// 5 PDV (30 trufas)
+    int a = player[0][0];
+    int b = player[1][0];
 
-// Por cada linea, rellenar hasta el string máximo
-// Categoria 1
-// laksjdlaksjdlakjsd
-//"cada 50 trufas   "
-//"Oinks            "
-//"Cerdo codicioso  "
+    // Mas Trufas en total
+    if (a == b)
+    {
+        PDV[0][0] = 5;
+        PDV[1][0] = 5;
+    }
+    else if (a > b)
+    {
+        PDV[0][0] = 5;
+    }
+    else
+    {
+        PDV[1][0] = 5;
+    }
 
-// Categoria 2
-//"6 PDV (300 trufas)    "
-//"6 PDV (3 Oinks)       "
-//"0 PDV (8 lanzamientos)"
+    // Cant de oinks
+    PDV[0][1] = player[0][1] * 2;
+    PDV[1][1] = player[1][1] * 2;
 
-//|    laksjdlaksjdlakjsd    [5 PDV (3000000000020 trufas),"     ", 5 PDV (30 trufas)]    |
-//|    asdasdasdasd     ,    [5 PDV (3000000000020 trufas),"     ", 5 PDV (30 trufas)]    |
+    // Cerdo codicioso
+    a = player[0][2];
+    b = player[1][2];
 
-// MOSTRAR CARTEL
-//"mas trufas en total"+=/"                               "+=/"     asdas      "
+    if (a == b)
+    {
+        PDV[0][2] = 2;
+        PDV[1][2] = 2;
+    }
+    else if (a > b)
+    {
+        PDV[0][2] = 2;
+    }
+    else
+    {
+        PDV[1][2] = 2;
+    }
+    // Cada 50 trufas
+    PDV[0][3] = player[0][0] / 50;
+    PDV[1][3] = player[1][0] / 50;
+
+}
+
+//SumarPDV para un jugador
+int SumarPDV(int PDV[][HITOS],int jugador) {
+
+    int suma=0;
+
+    for (int j = 0; j < HITOS; j++)
+    {
+        suma+=PDV[jugador-1][j];
+    }
+        
+    return suma;
+}
+
+void Resultados(int PDV[][HITOS],int Player[][HITOS],string Nombre[])
+{
+    //Coordenadas iniciales
+    const int x=15;
+    const int y=12;
+
+    string hitos[HITOS];
+    hitos[0] = "MAS TRUFAS EN TOTAL";
+    hitos[1] = "OINKS";
+    hitos[2] = "CERDO CODICIOSO";
+    hitos[3] = "CADA 50 TRUFAS";
+
+    string descripcion[HITOS];
+    descripcion[0]=" Trufas";
+    descripcion[1]=" Oinks";
+    descripcion[2]=" Lanzamientos";
+    descripcion[3]=" Trufas";
+    
+
+    rlutil::locate(50, 2);
+    cout << "GRAN CERDO" << endl;
+    for (int i = 0; i < 120; i++)
+    {
+        cout<<"-";
+    }
+
+    //Dibujo cartel resultados
+    DibujarCuadrado(45,5,17,3);
+    rlutil::locate(48,6);
+    cout<<" RESULTADOS ";
+
+    //Posiciona string de hitos
+    for (int i = 0; i < HITOS; i++)
+    {   
+        rlutil::locate(x, y + i);
+        cout << hitos[i];
+    }
+    
+    //PDV jugador 1
+    for (int i = 0; i < HITOS; i++)
+    {
+        rlutil::locate(x+30, y + i);
+        cout << PDV[0][i] << " PDV  ("<< Player[0][i] << descripcion[i] << ")";
+    }
+     
+
+    //PDV jugador 2
+    for (int i = 0; i < HITOS; i++)
+    {
+        rlutil::locate(x+60, y + i);
+        cout <<PDV[1][i] << " PDV  ("<< Player[1][i] << descripcion[i] << ")";
+    }
+
+    //Dibujo cartel
+    DibujarCuadrado(x-2,y-2,90,HITOS+4);
+
+    int pisocartel=y+HITOS+1; //var auxiliar para la posicion inferior del cartel. (se suma 1 por el margen entre hito y el piso)
+    
+    //Guardo Cant. de PDV por jugador
+    int PuntosJ1= SumarPDV(PDV,1);
+    int PuntosJ2 = SumarPDV(PDV,2);
+
+    //Posiciono textos/ganador/ptos
+    rlutil::locate(x+30,y-3);
+    cout<<Nombre[0];
+    rlutil::locate(x+30,pisocartel+2);
+    cout<<PuntosJ1<<" PDV";
+    rlutil::locate(x+60,y-3);
+    cout<<Nombre[1];
+    rlutil::locate(x+60,pisocartel+2);
+    cout<<PuntosJ2<<" PDV";
+
+    int ganador;
+    if (PuntosJ1>PuntosJ2)
+    {
+        ganador=0;
+    }
+    else
+    {
+        ganador=1;
+    }
+    
+
+    rlutil::locate(40,y+12);
+    cout<<"GANADOR: "<<Nombre[ganador] <<endl;
+    
+    rlutil::locate(1,y+17);
+    cout<<" Pulse cualquier tecla para volver al menu"<<endl;
+    rlutil::locate(44,y+17);
+    rlutil::anykey();
+
+}
+
+
 
 // Func. Sorteo Inicial
 int Sorteo(string Vnombre[])

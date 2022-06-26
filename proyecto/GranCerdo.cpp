@@ -8,16 +8,19 @@
 #include "rlutil.h"
 using namespace std;
 
+//--------------------------CONFIGURACIONES----------------------------------
+
 /*-------------------FIN DE DECLARACION DE FUNCIONES----------------------------*/
 
 int main()
-{
-    int Player[2][3] = {}; // Vector para 2 jugadores PLayer[Turno][trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos]
-    int Lanza[2][5] = {};  // Vector para guardar lanzamientos x Ronda - [Turno][Ronda]
+{   
+    int Player[2][HITOS] = {}; // Matriz para 2 jugadores PLayer[Turno]--[trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos] [Cada 50 trufas]
+    int Lanza[2][5] = {};      // Matriz para guardar lanzamientos x Ronda Lanza[Turno]--[Ronda]
+    int PDV[2][HITOS] = {};    // Matriz para almacenar puntos de victoria PDV[turno]--[+Trufasentotal][C/50trufas][Oinks][Cerdocodicioso]
+    string Nombre[2];         // Nombre[0]==Jugador 1(turno 0), Nombre[1]==Jugador2 (Turno 1)
     bool on = true;
     char Continuar;
     int opcion, Lanzar2[2], Lanzar3[3], Lanzamientos;
-    string Nombre[2]; // Nombre[0]==Jugador 1(turno 0), Nombre[1]==Jugador2 (Turno 1)
     int Trufas, LanzMax1, LanzMax2, TrufasRonda, Turno, Dados, Ronda;
     int Unos = 0;
     bool Hundido = false, ForzarTurno = false, Oink = false;
@@ -60,7 +63,7 @@ int main()
 
             // Inicio de Turnos
             for (int i = 0; i < 2; i++)
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < HITOS-1; j++)
                     Player[i][j] = 0;
 
             // Reinicio de variables x juego
@@ -84,9 +87,14 @@ int main()
                     Continuar = 'S';
                     Trufas = 0, Unos = 0;
 
+
+                    //TITULO ----GRAN CERDO--
                     rlutil::locate(50, 2);
                     cout << "GRAN CERDO" << endl;
-                    cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+                    for (int i = 0; i < 120; i++)
+                    {
+                        cout<<"-";
+                    }
 
                     if (Dados == 2)
                     {
@@ -113,7 +121,6 @@ int main()
                         Lanza[Turno][Ronda - 1] = Lanzamientos; // Guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
                         rlutil::locate(1, 17);
                         MostrarDados(Lanzar2, 2);
-
                     }
                     else
                     {
@@ -179,7 +186,7 @@ int main()
                     {
                         cout << "Hiciste un Oink!" << endl;
                         Trufas *= 2;
-                        Player[Turno][1]++;
+                        Player[Turno][1]++; // ACUMULO OINKS POR JUGADOR
                         ForzarTurno = true;
                         Continuar = 'S';
                     }
@@ -231,7 +238,7 @@ int main()
                 } while (Continuar == 'S');
             }
 
-            // Calcular Maximo para c/jugador. (Hacerlo función)
+            // Calcular Maxima cant. de Lanzamientos para c/jugador. (Hacerlo función)
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 5; j++)
@@ -253,12 +260,31 @@ int main()
                 }
             }
 
-            // Prueba Lanzamientos maximos
-            cout << "Lanzamiento maximo para el jugador: " << Nombre[0] << " : " << LanzMax1 << endl;
-            cout << "Lanzamiento maximo para el jugador: " << Nombre[1] << " : " << LanzMax2 << endl;
-            cout << "DATOS DEL GANADOR" << endl;
-            rlutil::anykey();
+            Player[0][2] = LanzMax1;
+            Player[1][2] = LanzMax2;
 
+            //Cada 50 trufas (modulo trufas totales por jugador)
+            Player[0][3] = Player[0][0]-Player[0][0]%50;
+            Player[1][3] = Player[1][0]-Player[1][0]%50; 
+
+            CalculoPDV(Player, PDV);
+
+            /*for (int i = 0; i < HITOS; i++)
+            {
+                rlutil::locate(5,10+i);
+                cout << PDV[0][i] << " PDV  "<<"( "<<Player[0][i]<<" )";
+            }
+            
+            for (int i = 0; i < 4; i++)
+            {
+                rlutil::locate(20,10+i);
+                cout << PDV[1][i] << " PDV  "<<"( "<<Player[1][i]<<" )";
+            }
+            */
+
+            // Resultados finales para ambos jugadores, y ganador.
+            Resultados(PDV,Player,Nombre);
+        
             break;
 
         case 2:
@@ -272,14 +298,21 @@ int main()
             break;
 
         case 0:
-            cout << "Gracias por jugar :) , oprima cualquier tecla para salir " << endl;
-            rlutil::anykey();
-            /*SALIR / fin del programa*/
-            on = false;
+            cout<<"Estas seguro que queres salir ? S/N"<<endl;
+            cin>>Continuar;
+            if (toupper(Continuar)=='S')
+            {   
+                rlutil::cls();
+                cout << "Gracias por jugar :) , oprima cualquier tecla para salir " << endl;
+                rlutil::anykey();
+                /*SALIR / fin del programa*/
+                on = false;
+            }
+            
             break;
         }
-
-        // Fin del Switch Mostrar Ganador y PDV de cada Jugador
+        
+        //Fin del switch
     }
     return 0;
 }
