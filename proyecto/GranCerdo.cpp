@@ -10,7 +10,7 @@ using namespace std;
 
 //--------------------------CONFIGURACIONES----------------------------------
 
-/*-------------------FIN DE DECLARACION DE FUNCIONES----------------------------*/
+
 
 int main()
 {   
@@ -89,12 +89,7 @@ int main()
 
 
                     //TITULO ----GRAN CERDO--
-                    rlutil::locate(50, 2);
-                    cout << "GRAN CERDO" << endl;
-                    for (int i = 0; i < 120; i++)
-                    {
-                        cout<<"-";
-                    }
+                    GranCerdo();
 
                     if (Dados == 2)
                     {
@@ -116,7 +111,7 @@ int main()
 
                         CartelTurno(Ronda, Lanzamientos, TrufasRonda);
 
-                        rlutil::locate(7, 14);
+                        rlutil::locate(3, 14);
                         cout << "TOTAL ACUMULADO POR " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
                         Lanza[Turno][Ronda - 1] = Lanzamientos; // Guarda el ultimo contador de lanzamiento de la ronda para el turno 0 o 1
                         rlutil::locate(1, 17);
@@ -138,7 +133,7 @@ int main()
                         cout << "Trufas de la ronda: " << TrufasRonda << endl;
                         cout << "#Lanzamiento: " << Lanzamientos << endl;
                         */
-                        rlutil::locate(7, 14);
+                        rlutil::locate(3, 14);
                         cout << "TOTAL ACUMULADO POR " << Nombre[Turno] << ": " << Player[Turno][0] << endl;
                         Lanza[Turno][Ronda - 1] = Lanzamientos; // Guarda el ultimo contador lanzamiento de La ronda para el turno 0 o 1
                         rlutil::locate(1, 17);

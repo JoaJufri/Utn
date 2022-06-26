@@ -6,18 +6,20 @@
 using namespace std;
 #include <stdio.h>
 #include "rlutil.h"
-// Func. Random dados x jugador
+
+/** Devuelve un número al azar de dados por jugador */
 void TirarDados(int vec[], int dados)
 {
     for (int i = 0; i < dados; i++)
         vec[i] = 1 + rand() % 6;
 }
 
-// Func. Mostrar dados sorteados
+/** Muestra los dados sorteados*/
 void MostrarDados(int vec[], int c_dados)
 {
     string dado[5] = {};
 
+    // Da un margen izquierdo de 5 espacios a cada dado
     for (int i = 0; i < 5; i++)
         dado[i] = "     ";
 
@@ -81,47 +83,61 @@ void MostrarDados(int vec[], int c_dados)
     cout << "\n";
 }
 
-void DibujarCuadrado(int x, int y, int ancho, int alto) {
+/**
+ * @brief  Dibuja un cuadrado en pantalla
+ *
+ * @param x Posición a lo largo
+ * @param y Posición a lo alto
+ * @param ancho Ancho del cuadrado
+ * @param alto Alto del cuadrado
+ */
+void DibujarCuadrado(int x, int y, int ancho, int alto)
+{
 
-    int xaux=x;
-    int yaux=y;
-    string BordeHorizontal="+";
-    //Dibuja techo y piso "  +-------+"
-    for (int i = 0; i <= ancho-2; i++)
+    int xaux = x;
+    int yaux = y;
+    string BordeHorizontal = "+";
+    // Dibuja techo y piso "  +-------+"
+    for (int i = 0; i <= ancho - 2; i++)
     {
-        BordeHorizontal+="-";  
+        BordeHorizontal += "-";
     }
 
-    BordeHorizontal+="+";
-  
-    //Dibuja borde superior
-    rlutil::locate(x,y);
-    cout<<BordeHorizontal;
+    BordeHorizontal += "+";
 
-    //Dibuja lado izquierdo "|" (le resto 2 al alto por los bordes sup. e inferior)
-    for (int i = 0; i < alto-2; i++)
+    // Dibuja borde superior
+    rlutil::locate(x, y);
+    cout << BordeHorizontal;
+
+    // Dibuja lado izquierdo "|" (le resto 2 al alto por los bordes sup. e inferior)
+    for (int i = 0; i < alto - 2; i++)
     {
         yaux++;
-        rlutil::locate(x,yaux);
-        cout<<"|";
+        rlutil::locate(x, yaux);
+        cout << "|";
     }
-    
-    //Dibuja lado derecho "|" (le resto 2 al alto por los bordes sup. e inferior)
-    yaux=y;
-    for (int i = 0; i < alto-2; i++)
-    {   
-        yaux++;
-        rlutil::locate(x+ancho,yaux);
-        cout<<"|";
-    }
-    
-    //Dibuja borde inferior (Le resto 1 al alto pq ya dibuje el borde superior)
-    rlutil::locate(x,y+alto-1);
-    cout<<BordeHorizontal;
 
+    // Dibuja lado derecho "|" (le resto 2 al alto por los bordes sup. e inferior)
+    yaux = y;
+    for (int i = 0; i < alto - 2; i++)
+    {
+        yaux++;
+        rlutil::locate(x + ancho, yaux);
+        cout << "|";
+    }
+
+    // Dibuja borde inferior (Le resto 1 al alto pq ya dibuje el borde superior)
+    rlutil::locate(x, y + alto - 1);
+    cout << BordeHorizontal;
 }
 
-// Func. Sumar dados x jugador
+/**
+ * @brief Suma los dados por jugador
+ *
+ * @param vec Vector de dados
+ * @param dados Cantidad de dados
+ * @return int
+ */
 int SumarDados(int vec[], int dados)
 {
     int acu = 0;
@@ -150,32 +166,21 @@ int stringMasLargo(string vec[], int cant)
     return max;
 }
 
-
 /** Cartel de Turnos */
 void CartelTurno(int &Ronda, int &Lanzamientos, int &TrufasRonda)
 {
-    rlutil::locate(7, 8);
-    cout << "+--------------------------------+";
-    rlutil::locate(7, 9);
-    cout << "| Ronda: " << Ronda << endl;
-    rlutil::locate(7, 10);
-    cout << "| Trufas de la Ronda: " << TrufasRonda << endl;
-    rlutil::locate(7, 11);
-    cout << "| #Lanzamiento: " << Lanzamientos << endl;
-    rlutil::locate(7, 12);
-    cout << "+--------------------------------+" << endl;
+    DibujarCuadrado(3, 8, 27, 5);
 
-    int y = 9;
-    for (int i = 0; i < 3; i++)
-    {
-        rlutil::locate(40, y);
-        cout << "|";
-        y++;
-    }
+    rlutil::locate(5, 9);
+    cout << "Ronda: " << Ronda << endl;
+    rlutil::locate(5, 10);
+    cout << "Trufas de la Ronda: " << TrufasRonda << endl;
+    rlutil::locate(5, 11);
+    cout << "#Lanzamiento: " << Lanzamientos << endl;
 }
 
 // Calcula Puntos De Victoria (update)
-//orden matriz player: [trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos] [Cada 50 trufas]
+// orden matriz player: [trufas_acumuladas][Cant_Oinks] [Max_Lanzamientos] [Cada 50 trufas]
 void CalculoPDV(int player[][HITOS], int PDV[][HITOS])
 {
 
@@ -221,27 +226,38 @@ void CalculoPDV(int player[][HITOS], int PDV[][HITOS])
     // Cada 50 trufas
     PDV[0][3] = player[0][0] / 50;
     PDV[1][3] = player[1][0] / 50;
-
 }
 
-//SumarPDV para un jugador
-int SumarPDV(int PDV[][HITOS],int jugador) {
+// SumarPDV para un jugador
+int SumarPDV(int PDV[][HITOS], int jugador)
+{
 
-    int suma=0;
+    int suma = 0;
 
     for (int j = 0; j < HITOS; j++)
     {
-        suma+=PDV[jugador-1][j];
+        suma += PDV[jugador - 1][j];
     }
-        
+
     return suma;
 }
 
-void Resultados(int PDV[][HITOS],int Player[][HITOS],string Nombre[])
+void GranCerdo()
 {
-    //Coordenadas iniciales
-    const int x=15;
-    const int y=12;
+
+    rlutil::locate(52, 2);
+    cout << "GRAN CERDO" << endl;
+    for (int i = 0; i < 120; i++)
+    {
+        cout << "-";
+    }
+}
+
+void Resultados(int PDV[][HITOS], int Player[][HITOS], string Nombre[])
+{
+    // Coordenadas iniciales
+    const int x = 15;
+    const int y = 12;
 
     string hitos[HITOS];
     hitos[0] = "MAS TRUFAS EN TOTAL";
@@ -250,87 +266,76 @@ void Resultados(int PDV[][HITOS],int Player[][HITOS],string Nombre[])
     hitos[3] = "CADA 50 TRUFAS";
 
     string descripcion[HITOS];
-    descripcion[0]=" Trufas";
-    descripcion[1]=" Oinks";
-    descripcion[2]=" Lanzamientos";
-    descripcion[3]=" Trufas";
-    
+    descripcion[0] = " Trufas";
+    descripcion[1] = " Oinks";
+    descripcion[2] = " Lanzamientos";
+    descripcion[3] = " Trufas";
 
-    rlutil::locate(50, 2);
-    cout << "GRAN CERDO" << endl;
-    for (int i = 0; i < 120; i++)
-    {
-        cout<<"-";
-    }
+    GranCerdo();
 
-    //Dibujo cartel resultados
-    DibujarCuadrado(45,5,17,3);
-    rlutil::locate(48,6);
-    cout<<" RESULTADOS ";
+    // Dibujo cartel resultados
+    DibujarCuadrado(47, 5, 17, 3);
+    rlutil::locate(51, 6);
+    cout << "RESULTADOS";
 
-    //Posiciona string de hitos
+    // Posiciona string de hitos
     for (int i = 0; i < HITOS; i++)
-    {   
+    {
         rlutil::locate(x, y + i);
         cout << hitos[i];
     }
-    
-    //PDV jugador 1
+
+    // PDV jugador 1
     for (int i = 0; i < HITOS; i++)
     {
-        rlutil::locate(x+30, y + i);
-        cout << PDV[0][i] << " PDV  ("<< Player[0][i] << descripcion[i] << ")";
+        rlutil::locate(x + 30, y + i);
+        cout << PDV[0][i] << " PDV  (" << Player[0][i] << descripcion[i] << ")";
     }
-     
 
-    //PDV jugador 2
+    // PDV jugador 2
     for (int i = 0; i < HITOS; i++)
     {
-        rlutil::locate(x+60, y + i);
-        cout <<PDV[1][i] << " PDV  ("<< Player[1][i] << descripcion[i] << ")";
+        rlutil::locate(x + 60, y + i);
+        cout << PDV[1][i] << " PDV  (" << Player[1][i] << descripcion[i] << ")";
     }
 
-    //Dibujo cartel
-    DibujarCuadrado(x-2,y-2,90,HITOS+4);
+    // Dibujo cartel
+    DibujarCuadrado(x - 2, y - 2, 90, HITOS + 4);
 
-    int pisocartel=y+HITOS+1; //var auxiliar para la posicion inferior del cartel. (se suma 1 por el margen entre hito y el piso)
-    
-    //Guardo Cant. de PDV por jugador
-    int PuntosJ1= SumarPDV(PDV,1);
-    int PuntosJ2 = SumarPDV(PDV,2);
+    int pisocartel = y + HITOS + 1; // var auxiliar para la posicion inferior del cartel. (se suma 1 por el margen entre hito y el piso)
 
-    //Posiciono textos/ganador/ptos
-    rlutil::locate(x+30,y-3);
-    cout<<Nombre[0];
-    rlutil::locate(x+30,pisocartel+2);
-    cout<<PuntosJ1<<" PDV";
-    rlutil::locate(x+60,y-3);
-    cout<<Nombre[1];
-    rlutil::locate(x+60,pisocartel+2);
-    cout<<PuntosJ2<<" PDV";
+    // Guardo Cant. de PDV por jugador
+    int PuntosJ1 = SumarPDV(PDV, 1);
+    int PuntosJ2 = SumarPDV(PDV, 2);
+
+    // Posiciono textos/ganador/ptos
+    rlutil::locate(x + 30, y - 3);
+    cout << Nombre[0];
+    rlutil::locate(x + 30, pisocartel + 2);
+    cout << PuntosJ1 << " PDV";
+    rlutil::locate(x + 60, y - 3);
+    cout << Nombre[1];
+    rlutil::locate(x + 60, pisocartel + 2);
+    cout << PuntosJ2 << " PDV";
 
     int ganador;
-    if (PuntosJ1>PuntosJ2)
+    if (PuntosJ1 > PuntosJ2)
     {
-        ganador=0;
+        ganador = 0;
     }
     else
     {
-        ganador=1;
+        ganador = 1;
     }
-    
 
-    rlutil::locate(40,y+12);
-    cout<<"GANADOR: "<<Nombre[ganador] <<endl;
-    
-    rlutil::locate(1,y+17);
-    cout<<" Pulse cualquier tecla para volver al menu"<<endl;
-    rlutil::locate(44,y+17);
+    rlutil::locate(40, y + 12);
+    cout << "GANADOR: " << Nombre[ganador] << endl;
+
+    rlutil::locate(1, y + 17);
+    cout << " Pulse cualquier tecla para volver al menu" << endl;
+    rlutil::locate(44, y + 17);
     rlutil::anykey();
-
 }
-
-
 
 // Func. Sorteo Inicial
 int Sorteo(string Vnombre[])
@@ -361,13 +366,13 @@ int Sorteo(string Vnombre[])
             if (max1 > max2)
             {
                 turno = 0;
-                cout << "Comienza " << Vnombre[turno] << endl;
+                cout << "\nComienza " << Vnombre[turno] << endl;
                 flag = true;
             }
             else if (max2 > max1)
             {
                 turno = 1;
-                cout << "Comienza " << Vnombre[turno] << endl;
+                cout << "\nComienza " << Vnombre[turno] << endl;
                 flag = true;
             }
             else
@@ -380,13 +385,13 @@ int Sorteo(string Vnombre[])
         else if (acu1 > acu2)
         {
             turno = 0;
-            cout << "Comienza " << Vnombre[turno] << endl;
+            cout << "\nComienza " << Vnombre[turno] << endl;
             flag = true;
         }
         else
         {
             turno = 1;
-            cout << "Comienza " << Vnombre[turno] << endl;
+            cout << "\nComienza " << Vnombre[turno] << endl;
             flag = true;
         }
     }
