@@ -20,11 +20,11 @@ El juego utiliza dos dados hasta que ambos cerdos superen (cada uno) las 50 truf
 
 Cuando finalizan las rondas, se determina el puntaje final a partir de los siguientes hitos en el juego.
 
-[Instrucciones](https://www.notion.so/a69d3a1d4ff7476c876a552e32669009)
+# [Instrucciones](https://www.notion.so/a69d3a1d4ff7476c876a552e32669009)
 
 En caso de que algún hito resulte en empate entre ambos cerdos. El puntaje se otorga a ambos. Gana el juego el cerdo que haya obtenido más puntos de victoria.
 
-**Actividad**
+## Actividad
 
 Se pide desarrollar en C/C++ el juego Gran Cerdo haciendo uso de un proyecto de Aplicación de Consola.
 
@@ -34,15 +34,10 @@ El juego debe contar con un menú principal con las siguientes opciones:
 GRAN CERDO
 
 - --------------------
-
 1 - JUGAR
-
 2 - ESTADÍSTICAS
-
 3 - CERDITOS
-
 - --------------------
-
 0 - SALIR
 ```
 
@@ -60,26 +55,18 @@ PEPPA: 43 trufas acumuladas       GEORGE: 22 trufas acumuladas
 TURNO DE PEPPA
 
 +-------------------------+
-
 | RONDAS #3               |
-
 | TRUFAS DE LA RONDA: 13  |
-
 | LANZAMIENTOS: 3         |
-
 +-------------------------+
 
 LANZAMIENTO #4
 
-+---------+ +---------+ +---------+
-
-| x     x |  | x      |  | x    x |
-
-|    x    |  |    x   |  | x    x |
-
-| x     x |  |      x |  | x    x |
-
-+---------+ +---------+ +---------+
++-------+ +-------+ +-------+
+| x   x | | x     | | x   x |
+|   x   | |   x   | | x   x |
+| x   x | |     x | | x   x |
++-------+ +-------+ +-------+
 
 ¡Sumaste 14 trufas!
 
@@ -94,19 +81,12 @@ Al finalizar todas las rondas, se debe mostrar una pantalla como la siguiente e 
 GRAN CERDO
 
 - -----------------------------------------------------------------------
-
 HITO                   PEPPA                     GEORGE
-
 - -----------------------------------------------------------------------
-
 Más trufas en total    5 PDV (320 trufas)        0 PDV (280 trufas)
-
 Cada 50 trufas         6 PDV (300 trufas)        5 PDV (250 trufas)
-
 Oinks                  6 PDV (3 Oinks)           8 PDV (4 Oinks)
-
 Cerdo codicioso        0 PDV (8 lanzamientos)    2 PDV (10 lanzamientos)
-
 - -----------------------------------------------------------------------
 
 TOTAL                  18 PDV                    16 PDV
@@ -115,7 +95,6 @@ GANADOR: PEPPA con 18 puntos de victoria.
 
 Ingrese Oink para continuar:
 ```
-
 La opción estadísticas, debe mostrar el nombre del jugador que haya obtenido la mayor cantidad de puntos de victoria y dicha cantidad.
 
 La opción cerditos (o créditos), debe mostrar los apellidos, nombres y legajos de los integrantes del equipo. Así como también el nombre del equipo.
