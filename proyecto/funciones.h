@@ -125,7 +125,6 @@ void MostrarDados(int vec[], int c_dados)
  */
 void DibujarCuadrado(int x, int y, int ancho, int alto)
 {
-    int xaux = x;
     int yaux = y;
     string BordeHorizontal = "+";
     // Dibuja techo y piso "  +-------+"
