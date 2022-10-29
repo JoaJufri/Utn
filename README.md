@@ -35,7 +35,7 @@ _______________________________________________________
   
 8. Lotes de Carga y proceso - STRUCTS  
 ________________________
-##**PROGRAMACION ORIENTADA A OBJETOS**
+## **PROGRAMACION ORIENTADA A OBJETOS**
 1. Encapsulamiento
 2. Composicion
 3. Herencia y polimorfismo
