@@ -25,7 +25,7 @@ _______________________________________________________
 
 5. Corte de control
 
-6. Vectores, Arrays , strings y cadenas de caracteres
+6. Arrays , strings y cadenas de caracteres
 
 7. Funciones ()
     * Paso de parámetros por valor/referencia
@@ -34,7 +34,17 @@ _______________________________________________________
   
   
 8. Lotes de Carga y proceso - STRUCTS  
-
+________________________
+##**PROGRAMACION ORIENTADA A OBJETOS**
+1.Encapsulamiento
+2.Composicion
+3.Herencia y polimorfismo
+4.Constructores,destructores y sobrecarga de constructores y funciones
+5.UML
+_______________________
+**USO DE MEMORIA DINAMICA (new)**
+<br>
+**Manejo de archivos con puntero FILE**
 <br>  
 <br>  
 
