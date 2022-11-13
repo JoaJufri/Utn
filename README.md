@@ -49,10 +49,13 @@ _______________________
 <br>  
 
 > Nota: Se agregó la carpeta "Proyecto", corresponde  
-> a un proyecto final y grupal para  
+> a un proyecto final y grupal de programación estructurada para  
 > "Laboratorio de Computación I", dentro de instrucciones.md  
 > se puede encontrar la documentación del proyecto.
-  
+
+---
+## Proyecto POO y Archivos : https://github.com/JoaJufri/Recruit-Center.git
+---
 <br>
 
 Ésta ejercitación fue implementada la mayoría de los casos tanto en Diagrama de flujo como en `codigo en C++`.  
