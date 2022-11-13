@@ -41,6 +41,7 @@ ________________________
 3. Herencia y polimorfismo
 4. Constructores,destructores y sobrecarga de constructores y funciones
 5. UML
+6. Sobrecarga de Operadores
 _______________________
 **USO DE MEMORIA DINAMICA (new)**
 <br>
